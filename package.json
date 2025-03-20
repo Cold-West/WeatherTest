@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "craco start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "craco start"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +17,9 @@
     "@craco/craco": "^7.1.0",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
+    "craco-css-modules": "^1.0.6",
     "react-scripts": "^5.0.1",
+    "sass": "^1.85.0",
     "ts-loader": "^9.4.2"
   },
   "browserslist": {

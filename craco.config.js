@@ -1,4 +1,9 @@
+const CracoCSSModules = require('craco-css-modules');
+
 const config = {
+  plugins: [
+    { plugin: CracoCSSModules }
+  ],
   webpack: {
     configure: (webpackConfig) => {
       return {
