@@ -3,14 +3,18 @@ import '../styles/appStyles.css';
 import { useEffect, useState } from "react";
 const cache = new Map();
 
-const WeatherBox = (props) => {
+interface WeatherBoxProps {
+  weather: {latitude: number; longitude: number; id: number};
+  remove: ()=> void;
+}
 
-    const [latitude, setLatitude] = useState(`${props.weather.latitude}`);
-    const [longitude, setLongitude] = useState(`${props.weather.longitude}`);
+const WeatherBox = ({weather, remove}: WeatherBoxProps) => {
+
+
+    const [latitude, setLatitude] = useState(`${weather.latitude}`);
+    const [longitude, setLongitude] = useState(`${weather.longitude}`);
     const [text, setText] = useState("Введите координаты");
-    const [weather, setWeather] = useState("");
-
-    const deleteWeather = () => {props.remove(props.weather)}
+    const [weatherVal, setWeatherVal] = useState("");
 
     const checkWeath = async () => {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
@@ -20,19 +24,19 @@ const WeatherBox = (props) => {
         }
     
         if (cache.has(url)){
-          setWeather(cache.get(url).response);
+          setWeatherVal(cache.get(url).response);
           setText("Температура:");
         }
         else if (latitude !="" && longitude !=""){
           const response = await fetch(url)
           .then(response =>response.json());
-          setWeather(response.current.temperature_2m);
+          setWeatherVal(response.current.temperature_2m);
           cache.set(url, {response: response.current.temperature_2m, time: Date.now()});
           setText("Температура:");
         }
         else{
           setText("Введите координаты");
-          setWeather("");
+          setWeatherVal("");
         }
         console.log(cache);
       }
@@ -47,7 +51,7 @@ const WeatherBox = (props) => {
     
 
     return (
-        <div className="box" id={props.weather.id}>
+        <div className="box" id={weather.id.toString()}>
           <form className="boxInner">
             <div className="inputs">
               <input 
@@ -67,11 +71,11 @@ const WeatherBox = (props) => {
                 <button
                     type="button"
                     className="deleteButton" 
-                    onClick={deleteWeather}
+                    onClick={remove}
                 >×</button>
             </div>
           </form>
-          <p>{text} {weather}</p>
+          <p>{text} {weatherVal}</p>
         </div>
     );
 };

@@ -9,6 +9,7 @@ const App = () => {
   const removeWeatherBox = (weather: {id:number;}) =>{
     setWeatherBoxes(weatherBoxes.filter(w => w.id !== weather.id))
   }
+
   const addWeatherBox = () =>{
     const newWeatherBox ={
       latitude: 12,
@@ -23,7 +24,7 @@ const App = () => {
       <h1>Погода</h1>
       <button className="addWeatherBoxButton" onClick={addWeatherBox}>+</button>
         {weatherBoxes.map(weather =>
-          <WeatherBox remove={removeWeatherBox} weather={weather} key={weather.id}/>
+          <WeatherBox remove={() => removeWeatherBox(weather)} weather={weather} key={weather.id}/>
         )}
     </>
   )
